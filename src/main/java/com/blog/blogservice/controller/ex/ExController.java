@@ -1,23 +1,22 @@
 package com.blog.blogservice.controller.ex;
 
+import com.blog.blogservice.controller.ex.custom.CustomReflection;
 import com.blog.blogservice.exception.BlogException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Slf4j
 @ControllerAdvice
+@RequiredArgsConstructor
 public class ExController {
+
+    private final CustomReflection customReflection;
 
     @ExceptionHandler(BlogException.class)
     public ModelAndView blogExceptionHandler(BlogException e){
@@ -25,5 +24,20 @@ public class ExController {
                 .addObject(e.getMessage());
     }
 
+    @ExceptionHandler(BindException.class)
+    public ModelAndView bindExceptionHandler(BindingResult e, HandlerMethod hm) {
+
+
+        String viewPath = customReflection.getViewOfValidDto(hm);
+
+
+        ModelAndView mav = new ModelAndView(viewPath);
+
+        for (FieldError fieldError : e.getFieldErrors()) {
+            mav.addObject(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        return mav;
+
+    }
 
 }
