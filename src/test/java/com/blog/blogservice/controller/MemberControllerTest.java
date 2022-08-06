@@ -12,20 +12,24 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindException;
 
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 import static com.blog.blogservice.processor.annotation.LoginConst.MEMBER_ID;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional(readOnly = true)
 @AutoConfigureMockMvc
 @SpringBootTest
 class MemberControllerTest {
@@ -61,12 +65,12 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("[NEGATIVE] - 인증이 필요한 로직에 인증 없이 접근하면 home으로 이동되고 세션이 null이다.")
-    void notLoginTest() throws Exception {
+    void notLoginTest(){
         //given
         Assertions.assertThatThrownBy(() ->
-                mockMvc.perform(post("/board/register"))
-                        .andExpect(request().sessionAttribute(MEMBER_ID, 1L))
-                        .andDo(print()), "Ses123"
+                        mockMvc.perform(post("/board/register"))
+                                .andExpect(request().sessionAttribute(MEMBER_ID, 1L))
+                                .andDo(print()), "Ses123"
                 )
                 .isInstanceOf(AssertionError.class);
         //when
@@ -147,5 +151,46 @@ class MemberControllerTest {
         mockMvc.perform(post("/blog")
                 )
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("[negative] - Login 요청 시 아이디와 비밀번호는 공백일 수 없다.")
+    void loginFormTest() throws Exception {
+
+        //when
+        fixtureMVMap.set("loginId", "");
+        //then
+        fixtureMVMap.set("password", "");
+        mockMvc.perform(post("/login")
+                        .contentType(APPLICATION_FORM_URLENCODED)
+                        .params(fixtureMVMap)
+                )
+                .andExpect(result -> getResolvedException(result).isAssignableFrom(BindException.class))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("loginId", "아이디를 입력해주세요."))
+                .andExpect(model().attribute("password", "비밀번호를 입력해주세요."))
+                .andExpect(view().name("system/login"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("로그인 파라미터 바인딩 성공 후 redirect")
+    void bindingTest() throws Exception {
+
+        memberRepository.save(fixtureMember);
+
+        mockMvc.perform(post("/login")
+                        .contentType(APPLICATION_FORM_URLENCODED)
+                        .params(fixtureMVMap)
+                )
+                .andExpect(status().is3xxRedirection())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("test")
+    void test() throws Exception {
+        mockMvc.perform(get("/"))
+                .andDo(print());
     }
 }
