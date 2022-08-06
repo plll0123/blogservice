@@ -22,6 +22,4 @@ public interface SessionCheckChain extends HandlerInterceptor {
     }
 
     boolean sessionCheck(HttpServletRequest request);
-
-
 }

@@ -22,7 +22,7 @@ public class MemberService {
                 .getId();
     }
 
-    public Member findMember(LoginForm form){
+    public Member findMember(LoginForm form) {
         Member target = memberRepository.findByLoginId(form.getLoginId())
                 .orElseThrow(IdOrPwMisMatch::new);
 
@@ -31,16 +31,17 @@ public class MemberService {
         return target;
     }
 
-    public Member findById(Long id){
+    public Member findById(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(MemberNotFoundException::new);
     }
 
-    public Long findByLoginId(String loginId){
+    public Long findByLoginId(String loginId) {
         return memberRepository.findByLoginId(loginId)
                 .orElseThrow(MemberNotFoundException::new)
                 .getId();
     }
+
     private Member createMember(MemberCreator memberCreate) {
         return Member.builder()
                 .name(memberCreate.getName())

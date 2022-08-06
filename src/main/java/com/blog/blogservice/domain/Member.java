@@ -12,6 +12,7 @@ import static com.blog.blogservice.domain.RoleType.OWNER;
 import static com.blog.blogservice.domain.RoleType.USER;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.AUTO;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -21,7 +22,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = AUTO)
     @Column(name = "member_id")
     private Long id;
 

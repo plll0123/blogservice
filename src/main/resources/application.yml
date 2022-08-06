@@ -12,7 +12,7 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     #    url: jdbc:h2:tcp://localhost/~/blogservice
-    url: jdbc:h2:tcp://localhost/~/blogservice
+    url: jdbc:h2:tcp://localhost/~/blogservice;MODE=LEGACY
     username: sa
     password:
 
