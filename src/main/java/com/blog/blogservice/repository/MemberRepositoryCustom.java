@@ -1,4 +1,4 @@
-package com.blog.blogservice.repository.query;
+package com.blog.blogservice.repository;
 
 import com.blog.blogservice.domain.Member;
 
