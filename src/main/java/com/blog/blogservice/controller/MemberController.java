@@ -20,7 +20,6 @@ public class MemberController {
     private final MemberService memberService;
     private final InterceptorService interceptorService;
 
-//    @LoginProcessor
     @PostMapping("/login")
     public String login(LoginForm loginForm){
 
