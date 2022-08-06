@@ -2,8 +2,6 @@ package com.blog.blogservice.processor.argumentResolver;
 
 import com.blog.blogservice.processor.annotation.Login;
 import com.blog.blogservice.domain.Member;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -36,5 +34,4 @@ public interface LoginMemberArgumentResolver extends HandlerMethodArgumentResolv
     }
 
     Object extractMemberFromSession(HttpServletRequest request);
-
 }
