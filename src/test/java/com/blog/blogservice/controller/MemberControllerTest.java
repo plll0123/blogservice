@@ -60,7 +60,11 @@ class MemberControllerTest {
         fixtureMVMap = new LinkedMultiValueMap<>();
         fixtureMVMap.add("loginId", "test");
         fixtureMVMap.add("password", "test");
-
+    }
+    
+    @AfterEach
+    void clearFixture() {
+        memberRepository.deleteAll();
     }
 
     @Test
