@@ -1,4 +1,4 @@
-package com.blog.blogservice.repository;
+package com.blog.blogservice.repository.entityrepo;
 
 import com.blog.blogservice.domain.Post;
 import org.hibernate.metamodel.model.convert.spi.JpaAttributeConverter;
