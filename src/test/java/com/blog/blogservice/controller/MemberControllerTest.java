@@ -66,16 +66,13 @@ class MemberControllerTest {
     @Test
     @DisplayName("[NEGATIVE] - 인증이 필요한 로직에 인증 없이 접근하면 home으로 이동되고 세션이 null이다.")
     void notLoginTest(){
-        //given
+        //expected
         Assertions.assertThatThrownBy(() ->
                         mockMvc.perform(post("/board/register"))
                                 .andExpect(request().sessionAttribute(MEMBER_ID, 1L))
                                 .andDo(print()), "Ses123"
                 )
                 .isInstanceOf(AssertionError.class);
-        //when
-
-        //then
     }
 
     @Test
