@@ -57,7 +57,7 @@ public class Blog {
     }
 
     private void validation(Member member) {
-        notNull(member, "member most not null");
+        notNull(member, "member must not be null");
         if(member.hasBlog())
             throw new NonUniqueBlogException();
     }
