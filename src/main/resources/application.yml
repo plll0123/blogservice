@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: local
+
+#  thymeleaf:
+#    cache: false
+
+  mvc:
+    view:
+      prefix: /WEB-INF/views/jblog
+      suffix: .jsp
+  datasource:
+    driver-class-name: org.h2.Driver
+    #    url: jdbc:h2:tcp://localhost/~/blogservice
+    url: jdbc:h2:tcp://localhost/~/blogservice
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+        #        default_batch_fetch_size:
+        use_sql_comments: true
+        highlight_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
