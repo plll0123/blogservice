@@ -15,13 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.blog.blogservice.processor.annotation.LoginConst.LOGGED_IN;
 
-@Slf4j
 @Component
-@RequiredArgsConstructor
-public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+public interface LoginMemberArgumentResolver extends HandlerMethodArgumentResolver {
 
     @Override
-    public boolean supportsParameter(MethodParameter parameter) {
+    default boolean supportsParameter(MethodParameter parameter) {
 
         boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
         boolean isMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
@@ -30,12 +28,13 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-
-        log.info("resolveArgumentResolver called()");
+    default Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
         return request.getAttribute(LOGGED_IN);
     }
+
+    Object extractMemberFromSession(HttpServletRequest request);
+
 }
