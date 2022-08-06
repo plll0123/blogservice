@@ -7,10 +7,7 @@ import javax.validation.Valid;
 public interface CustomReflection {
 
     default String getViewOfValidDto(HandlerMethod hm) {
-        if(hm.hasMethodAnnotation(Valid.class))
-            return findView(hm);
-
-        return "redirect:/";
+        return findView(hm);
     }
 
     String findView(HandlerMethod hm);
