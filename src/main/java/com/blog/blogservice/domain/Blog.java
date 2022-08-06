@@ -31,7 +31,7 @@ public class Blog {
     private Member member;
 
     @OneToMany(mappedBy = "blog", cascade = ALL)
-    private List<Post> postList = new ArrayList<>();
+    private final List<Post> postList = new ArrayList<>();
 
     @Builder
     private Blog(Member member, String title, String tag){
