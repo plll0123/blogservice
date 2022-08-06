@@ -1,7 +1,7 @@
-package com.blog.blogservice.repository;
+package com.blog.blogservice.repository.entityrepo;
 
 import com.blog.blogservice.domain.Member;
-import com.blog.blogservice.repository.query.MemberRepositoryCustom;
+import com.blog.blogservice.repository.MemberRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
