@@ -17,7 +17,6 @@ import java.util.Optional;
 
 import static com.blog.blogservice.domain.RoleType.USER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
@@ -65,9 +64,4 @@ class MemberRepositoryTest {
         assertThat(findMember).isNotNull();
     }
 
-    @Test
-    @DisplayName("회원[EX] - CRUD")
-    void negativeCRUD() {
-
-    }
 }
