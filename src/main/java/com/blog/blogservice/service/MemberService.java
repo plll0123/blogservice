@@ -17,6 +17,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public Long join(MemberCreator memberCreate) {
         return memberRepository.save(createMember(memberCreate))
                 .getId();
