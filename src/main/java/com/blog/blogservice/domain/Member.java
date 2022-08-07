@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 import static com.blog.blogservice.domain.RoleType.OWNER;
 import static com.blog.blogservice.domain.RoleType.USER;
+import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.AUTO;
@@ -32,7 +33,7 @@ public class Member {
     @Enumerated(STRING)
     private RoleType roleType;
 
-    @OneToOne(mappedBy = "member", fetch = LAZY)
+    @OneToOne(mappedBy = "member", fetch = LAZY, cascade = REMOVE)
     private Blog blog;
 
     @Builder
@@ -63,7 +64,7 @@ public class Member {
     }
 
     public boolean hasBlog() {
-        return blog != null;
+        return roleType == OWNER;
     }
 
 
