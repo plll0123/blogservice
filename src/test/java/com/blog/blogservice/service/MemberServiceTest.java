@@ -5,7 +5,7 @@ import com.blog.blogservice.controller.dto.request.MemberCreator;
 import com.blog.blogservice.domain.Member;
 import com.blog.blogservice.exception.IdOrPwMisMatch;
 import com.blog.blogservice.exception.MemberNotFoundException;
-import com.blog.blogservice.repository.MemberRepository;
+import com.blog.blogservice.repository.entityrepo.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

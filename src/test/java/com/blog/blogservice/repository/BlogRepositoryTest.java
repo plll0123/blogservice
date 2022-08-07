@@ -65,9 +65,8 @@ class BlogRepositoryTest {
     @Test
     @DisplayName("[negative] - 블로그는 회원 객체 없이 생성이 불가능하다.")
     void blog_negative() {
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        assertThrows(AssertionError.class,
                 () -> Blog.createBlog(null, "null", "null"));
-        assertThat(e.getMessage()).isEqualTo("member must not be null");
     }
 
     @Test
