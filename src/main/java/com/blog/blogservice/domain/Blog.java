@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mysema.commons.lang.Assert.notNull;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
@@ -57,7 +56,7 @@ public class Blog {
     }
 
     private void validation(Member member) {
-        notNull(member, "member must not be null");
+        assert member != null;
         if(member.hasBlog())
             throw new NonUniqueBlogException();
     }
