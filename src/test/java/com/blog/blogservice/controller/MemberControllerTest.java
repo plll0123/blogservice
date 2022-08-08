@@ -167,10 +167,10 @@ class MemberControllerTest {
                         .params(fixtureMVMap)
                 )
                 .andExpect(result -> getResolvedException(result).isAssignableFrom(BindException.class))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andExpect(model().attribute("loginId", "아이디를 입력해주세요."))
                 .andExpect(model().attribute("password", "비밀번호를 입력해주세요."))
-                .andExpect(view().name("system/login"))
+                .andExpect(view().name("/system/login"))
                 .andDo(print());
     }
 

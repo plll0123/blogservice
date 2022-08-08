@@ -70,7 +70,7 @@ class MemberServiceTest {
         em.flush();
         em.clear();
 
-        Long byLoginId = memberService.findByLoginId(memberCreator.getLoginId());
+        Long byLoginId = memberService.findIdByLoginId(memberCreator.getLoginId());
         //expected
         Member joinMember = memberRepository.findById(joinMemberId)
                 .orElse(null);

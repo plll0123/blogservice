@@ -5,7 +5,7 @@ import com.blog.blogservice.controller.dto.request.LoginForm;
 import com.blog.blogservice.domain.Member;
 import com.blog.blogservice.exception.IdOrPwMisMatch;
 import com.blog.blogservice.exception.MemberNotFoundException;
-import com.blog.blogservice.repository.MemberRepository;
+import com.blog.blogservice.repository.entityrepo.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ public class MemberService {
                 .orElseThrow(MemberNotFoundException::new);
     }
 
-    public Long findByLoginId(String loginId) {
+    public Long findIdByLoginId(String loginId) {
         return memberRepository.findByLoginId(loginId)
                 .orElseThrow(MemberNotFoundException::new)
                 .getId();

@@ -1,12 +1,12 @@
 package com.blog.blogservice.controller;
 
 import com.blog.blogservice.domain.Member;
-import com.blog.blogservice.processor.config.LoginConstConfig;
-import com.blog.blogservice.repository.MemberRepository;
+import com.blog.blogservice.fixture.BlogCreateFixture;
+import com.blog.blogservice.processor.interceptor.session.SessionCheckChain;
 import com.blog.blogservice.repository.entityrepo.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.apache.coyote.Request;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,28 +15,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
+import static com.blog.blogservice.fixture.BlogCreateFixture.blogDtoFixture;
+import static com.blog.blogservice.fixture.LoginFormFixture.loginFormFixture;
 import static com.blog.blogservice.fixture.MemberFixture.memberFixture;
-import static com.blog.blogservice.processor.config.LoginConstConfig.MEMBER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 
 @Slf4j
 @AutoConfigureMockMvc
@@ -45,138 +46,163 @@ class BlogControllerTest {
 
     @Autowired
     TestRestTemplate testRestTemplate;
+
     @Autowired
     MemberRepository memberRepository;
+
     @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     MockMvc mockMvc;
+
     @LocalServerPort
     private int port;
-
-    Cookie loginCookie;
-    MockHttpSession session = new MockHttpSession();
-
-    @BeforeEach
-    void initFixture() {
-//        Member savedMember = memberRepository.save(memberFixture());
-//
-//        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-//        parameters.add("loginId", savedMember.getLoginId());
-//        parameters.add("password", savedMember.getPassword());
-//
-//        ResponseEntity<String> response = testRestTemplate
-//                .postForEntity("/login", parameters, String.class);
-//        HttpHeaders headers = response.getHeaders();
-//        List<String> cookies = headers.get("Set-Cookie");
-//        String[] cookie = cookies.get(0)
-//                .split(";")[0]
-//                .split("=");
-//
-//        loginCookie = new Cookie(cookie[0], cookie[1]);
-
-    }
-
-    @Test
-    @DisplayName("testRestTemplate_teat@@")
-    void testetse() {
-        //given
-
-        Member savedMember = memberRepository.save(memberFixture());
-
-        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        parameters.add("loginId", savedMember.getLoginId());
-        parameters.add("password", savedMember.getPassword());
-
-        ResponseEntity<String> response = testRestTemplate
-                .postForEntity("/login", parameters, String.class);
-
-        HttpHeaders headers = response.getHeaders();
-        List<String> cookies = headers.get("Set-Cookie");
-        String[] cookie = cookies.get(0)
-                .split(";")[0]
-                .split("=");
-
-        System.out.println("cookie.key is = " + cookie[0]);
-        System.out.println("cookie.value is = " + cookie[1]);
-
-        HttpHeaders headers1 = response.getHeaders();
-        for (String s : headers1.keySet()) {
-            System.out.println(" header by ResponseEntity =  " + s);
-        }
-    }
 
     @Test
     @DisplayName("블로그 생성 테스트")
     void create_blog() throws Exception {
-        Member savedMember = memberRepository.save(memberFixture());
 
-        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        parameters.add("loginId", savedMember.getLoginId());
-        parameters.add("password", savedMember.getPassword());
+        memberRepository.save(memberFixture());
+        MultiValueMap<String, String> loginFormMap = new LinkedMultiValueMap<>();
+        loginFormMap.add("loginId", "test");
+        loginFormMap.add("password", "test");
+        MvcResult mvcResult = mockMvc.perform(post("/login")
+                .contentType(APPLICATION_FORM_URLENCODED)
+                .params(loginFormFixture())
+        ).andReturn();
 
-        ResponseEntity<String> response = testRestTemplate
-                .postForEntity("/login", parameters, String.class);
+        HandlerInterceptor[] interceptors = mvcResult.getInterceptors();
+        for (HandlerInterceptor interceptor : interceptors) {
+            System.out.println("interceptor = " + interceptor);
+        }
 
-//        HttpHeaders headers = response.getHeaders();
-//        List<String> cookies = headers.get("Set-Cookie");
-//        String[] cookie = cookies.get(0)
-//                .split(";")[0]
-//                .split("=");
+        RequestEntity<Void> reqEntity = RequestEntity
+                .post("http://localhost:" + port + "/login", loginFormMap)
+                .contentType(APPLICATION_FORM_URLENCODED)
+                .build();
 
-//        response.getHeaders().getRe
-        MultiValueMap<String, String> blogDtoMap = new LinkedMultiValueMap<>();
-        blogDtoMap.add("title", "test");
-        blogDtoMap.add("tag", "test");
+        ResponseEntity<String> stringResponseEntity =
+                testRestTemplate.exchange(reqEntity, String.class);
 
-//        MockHttpSession session = new MockHttpSession();
-//        session.setAttribute(MEMBER_ID, savedMember.getId());
+        System.out.println("stringResponseEntity.toString() = " + stringResponseEntity.toString());
+//                testRestTemplate.postForEntity("http://localhost:" + port + "/login", loginFormMap, String.class);
+        HttpHeaders headers = stringResponseEntity.getHeaders();
+        for (String s : headers.keySet()) {
+            System.out.println("headers.keySet() = " + s);
+        }
+        List<String> cookies = headers.get("Set-Cookie");
+        assert cookies != null;
+        String cookie = cookies.get(0);
+        String[] cookiePair = cookie.split(";")[0]
+                .split("=");
 
-        Map<String, Object> sessionAttrs = new HashMap<>();
-        sessionAttrs.put(MEMBER_ID, savedMember.getId());
+        Cookie reqCookie = new Cookie(cookiePair[0], cookiePair[1]);
 
-        mockMvc.perform(post("/blog")
-                        .contentType(APPLICATION_FORM_URLENCODED)
-                        .params(blogDtoMap)
-                        .sessionAttrs(sessionAttrs)
-                )
-                .andExpect(status().is3xxRedirection())
+
+        ResultActions perform = mockMvc.perform(post("http://localhost:" + port + "/blog")
+                .contentType(APPLICATION_FORM_URLENCODED)
+                .params(blogDtoFixture())
+                .cookie(reqCookie)
+        );
+        perform
                 .andExpect(cookie().exists("JSESSIONID"))
                 .andDo(print());
+
+        long count = Arrays.stream(Objects.requireNonNull(perform.andReturn()
+                        .getInterceptors()))
+                .filter(f -> SessionCheckChain.class.isAssignableFrom(f.getClass()))
+                .count();
+
+        assertThat(count).isEqualTo(2);
     }
 
     @Test
-    @DisplayName("블로그 생성 테스스트트트트")
-    void createcreate() throws Exception {
-        Member savedMember = memberRepository.save(memberFixture());
-
-        assertThat(savedMember.getId()).isEqualTo(1L);
-        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        parameters.add("loginId", savedMember.getLoginId());
-        parameters.add("password", savedMember.getPassword());
-
-        MvcResult mvcResult = mockMvc.perform(post("/login")
+    @DisplayName("쿠키 테스트(콘솔)")
+    void test() {
+        //given
+        memberRepository.save(memberFixture());
+        MultiValueMap<String, String> loginFormMap = new LinkedMultiValueMap<>();
+        loginFormMap.add("loginId", "test");
+        loginFormMap.add("password", "test");
+        RequestEntity<MultiValueMap<String, String>> reqEntity = RequestEntity
+                .post("http://localhost:" + port + "/login")
                 .contentType(APPLICATION_FORM_URLENCODED)
-                .params(parameters)
-        )
-                .andDo(print())
-                .andReturn();
+                .body(loginFormMap);
+
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            HttpHeaders headers2 = reqEntity.getHeaders();
+            List<String> cookies123 = headers2.get("Set-Cookie");
+            String cookie123 = cookies123.get(0);
+            String[] cookiePair123 = cookie123.split(";")[0]
+                    .split("=");
+
+            for (String s : cookiePair123) {
+                System.out.println(" sresponse " + s);
+            }
+        });
+
+        ResponseEntity<String> stringResponseEntity =
+                testRestTemplate.exchange(reqEntity, String.class);
+
+        HttpHeaders headers = stringResponseEntity.getHeaders();
+        List<String> cookies = headers.get("Set-Cookie");
+        String cookie = cookies.get(0);
+        String[] cookiePair = cookie.split(";")[0]
+                .split("=");
+
+        for (String s : cookiePair) {
+            System.out.println(" sresponse " + s);
+        }
+
+        Cookie reqCookie = new Cookie(cookiePair[0], cookiePair[1]);
+
+        RequestEntity<MultiValueMap<String, String>> creatBlogEntity = RequestEntity
+                .post("http://localhost:" + port + "/login")
+                .contentType(APPLICATION_FORM_URLENCODED)
+                .body(BlogCreateFixture.blogDtoFixture());
+
+        HttpHeaders headers1 = creatBlogEntity.getHeaders();
+        List<String> cookies1 = headers1.get("Set-Cookie");
+        String cookie1 = cookies.get(0);
+        String[] cookiePair1 = cookie.split(";")[0]
+                .split("=");
+
+        for (String s : cookiePair1) {
+            System.out.println("srequest = " + s);
+        }
+    }
+
+    @Test
+    @DisplayName("유저 검증 테스트")
+    void validation_user() {
+
+        Member fixtureMember = memberRepository.save(memberFixture());
+
+        RequestEntity<MultiValueMap<String, String>> loginEntity = RequestEntity
+                .post("http://localhost:" + port + "/login")
+                .contentType(APPLICATION_FORM_URLENCODED)
+                .body(loginFormFixture());
+
+        ResponseEntity<String> receivedResponse  = testRestTemplate.exchange(loginEntity, String.class);
 
 
-        MultiValueMap<String, String> blogDtoMap = new LinkedMultiValueMap<>();
-        blogDtoMap.add("title", "test");
-        blogDtoMap.add("tag", "test");
-        MockHttpSession session = (MockHttpSession)mvcResult.getRequest().getSession();
+        RequestEntity<MultiValueMap<String, String>> blogCreateEntity = RequestEntity
+                .post("http://localhost:" + port + "/blog")
+                .contentType(APPLICATION_FORM_URLENCODED)
+                .body(blogDtoFixture());
 
-        assertThat(session).isNotNull();
-        System.out.println("session.getAttribute(\"memberId\") = " + session.getAttribute(MEMBER_ID));
-        mockMvc.perform(post("/blog")
-                        .contentType(APPLICATION_FORM_URLENCODED)
-                        .params(blogDtoMap)
-                        .session(session)
-                )
-                .andExpect(view().name("welcome"))
-                .andExpect(request().sessionAttribute(MEMBER_ID, savedMember.getId()))
-                .andDo(print());
+        ResponseEntity<String> receivedBlogResponse = testRestTemplate.exchange(blogCreateEntity, String.class);
 
+        Cookie blogResponseCookie = findCookie(receivedBlogResponse.getHeaders());
+        assertThat(blogResponseCookie.getName()).isEqualTo("JSESSIONID");
+    }
+
+    private Cookie findCookie(HttpHeaders headers){
+        List<String> cookies = headers.get("Set-Cookie");
+        String cookieString = cookies.get(0);
+        String[] cookiePair = cookieString.split(";")[0]
+                .split("=");
+
+        return new Cookie(cookiePair[0], cookiePair[1]);
     }
 }
 

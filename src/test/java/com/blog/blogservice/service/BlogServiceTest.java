@@ -44,6 +44,14 @@ public class BlogServiceTest {
         memberRepository.deleteAll();
     }
 
+    private BlogCreate blogDtoFixture(){
+        return BlogCreate
+                .builder()
+                .tag("test")
+                .title("test")
+                .build();
+    }
+
     @Test
     @DisplayName("블로그 생성 테스트")
     void create_blog() {

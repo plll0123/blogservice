@@ -13,7 +13,6 @@ public class BlogCreate {
 
     @NotEmpty
     private String title;
-    @NotEmpty
     private String tag;
     private final String exOccursView = INSERT_BLOG;
 

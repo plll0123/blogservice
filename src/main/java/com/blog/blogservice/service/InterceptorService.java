@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static com.blog.blogservice.processor.config.LoginConstConfig.MEMBER_ID;
@@ -21,16 +22,16 @@ public class InterceptorService {
     }
 
     public void login(Long loginId) {
-        sessionByCurrentRequest()
+        sessionOfCurrentRequest()
                 .setAttribute(MEMBER_ID, loginId);
     }
 
     public void logout() {
-        sessionByCurrentRequest()
+        sessionOfCurrentRequest()
                 .invalidate();
     }
 
-    private HttpSession sessionByCurrentRequest() {
+    private HttpSession sessionOfCurrentRequest() {
         ServletRequestAttributes requestAttr = (ServletRequestAttributes) currentRequestAttributes();
         return requestAttr.getRequest().getSession();
     }
