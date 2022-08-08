@@ -12,11 +12,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+@Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
     private final SessionCheckChain chainNo1;
     private final SessionCheckChain chainNo2;
+    private final MemberArgumentResolver memberResolver;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -28,6 +30,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new MemberArgumentResolver());
+        resolvers.add(memberResolver);
     }
 }

@@ -16,18 +16,18 @@
 			<td width="100%" colspan="10" align="center">
 				<img src="images/logo.jpg" border="0">
 			</td>
-		</tr>				
+		</tr>
 		<tr>
 			<td align="center">
 				<input type="radio" name="searchCondition" value="TITLE" checked="checked">블로그 제목&nbsp;&nbsp;
 				<input type="radio"	name="searchCondition" value="TAG">태그
 			</td>
-		</tr>				
+		</tr>
 		<tr>
 			<td width="70%" colspan="2" align="center">
 				<a href="#"><b>로그인</b></a>&nbsp;&nbsp;
-     				<a href="#"><b>블로그등록</b></a>&nbsp;&nbsp;
-      			<a href="#"><b>블로그바로가기</b></a>&nbsp;&nbsp;
+				<a href="#"><b>블로그등록</b></a>&nbsp;&nbsp;
+				<a href="#"><b>블로그바로가기</b></a>&nbsp;&nbsp;
 				<input type="text" name="searchKeyword"	size="50">
 				<input type="submit" value="검색">
 			</td>

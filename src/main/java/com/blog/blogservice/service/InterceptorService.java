@@ -7,7 +7,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
 
-import static com.blog.blogservice.processor.annotation.LoginConst.MEMBER_ID;
+import static com.blog.blogservice.processor.config.LoginConstConfig.MEMBER_ID;
 import static org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes;
 
 @Service

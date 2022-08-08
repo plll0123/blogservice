@@ -21,8 +21,6 @@ public class DynamicFindTarget implements CustomReflection {
 
             Method getExOccursView = type.getMethod("getExOccursView");
 
-            System.out.println("getExOccursView.invoke(targetObj).toString(); = " + getExOccursView.invoke(targetObj).toString());
-
             return getExOccursView.invoke(targetObj).toString();
         } catch (ReflectiveOperationException e) {
             log.info("Throw ReflectiveException By {}", this.getClass(), e);

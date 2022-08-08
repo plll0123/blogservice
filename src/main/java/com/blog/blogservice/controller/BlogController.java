@@ -24,6 +24,10 @@ public class BlogController {
     public String register(@Valid BlogCreate blogCreate, @Login Member member){
 
         blogService.create(member.getId(), blogCreate);
-        return null;
+        System.out.println("member.getId() = " + member.getId());
+        System.out.println("member.getName() = " + member.getName());
+        System.out.println("member.getPassword() = " + member.getPassword());
+        blogService.create(member.getId(), blogCreate);
+        return "redirect:/welcome";
     }
 }

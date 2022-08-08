@@ -44,9 +44,9 @@
 --
 -- alter table BLOG_USER add constraint UK_cdcj82whs73cnxra4rbgby304 unique (username);
 --
--- -- 회원 등록
--- INSERT INTO BLOG_USER (USERID, USERNAME, PASSWORD, NAME, ROLE)
--- VALUES(1, 'test', 'test', '채규태', 'ADMIN');
+-- 회원 등록
+INSERT INTO BLOG_USER (USERID, USERNAME, PASSWORD, NAME, ROLE)
+VALUES(1, 'test', 'test', '채규태', 'ADMIN');
 --
 -- INSERT INTO BLOG_USER (USERID, USERNAME, PASSWORD, NAME, ROLE)
 -- VALUES(2, 'aaa', 'aaa', '방문자', 'USER');

@@ -39,8 +39,6 @@ public class Blog {
         this.tag = tag;
     }
 
-    //직접적으로 instance method를 호출하진 않지만
-    //간접적으로 의존하는 것이 이상하진 않은지
     public static Blog createBlog(Member member, String title, String tag){
         return Blog.builder()
                 .member(member)

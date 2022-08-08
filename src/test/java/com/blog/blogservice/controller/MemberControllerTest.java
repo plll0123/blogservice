@@ -21,8 +21,10 @@ import org.springframework.validation.BindException;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
-import static com.blog.blogservice.processor.annotation.LoginConst.MEMBER_ID;
+import static com.blog.blogservice.processor.config.LoginConstConfig.MEMBER_ID;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

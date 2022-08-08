@@ -4,12 +4,15 @@ import com.blog.blogservice.controller.ex.custom.CustomReflection;
 import com.blog.blogservice.exception.BlogException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Slf4j
 @ControllerAdvice
@@ -24,12 +27,11 @@ public class ExController {
                 .addObject(e.getMessage());
     }
 
+    @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ModelAndView bindExceptionHandler(BindingResult e, HandlerMethod hm) {
 
-
         String viewPath = customReflection.getViewOfValidDto(hm);
-
 
         ModelAndView mav = new ModelAndView(viewPath);
 
@@ -37,7 +39,6 @@ public class ExController {
             mav.addObject(fieldError.getField(), fieldError.getDefaultMessage());
         }
         return mav;
-
     }
 
 }
