@@ -1,14 +1,14 @@
 package com.blog.blogservice.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -20,7 +20,19 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
 
-    private String categoryName;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "blog_id")
+    private Blog blog;
+
+    private String name;
     private String description;
     private String displayType;
+
+    @Builder
+    public Category(Blog blog, String name, String description, String displayType) {
+        this.blog = blog;
+        this.name = name;
+        this.description = description;
+        this.displayType = displayType;
+    }
 }

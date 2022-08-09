@@ -32,9 +32,13 @@ public class Blog {
     @OneToMany(mappedBy = "blog", cascade = ALL)
     private final List<Post> postList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "blog", cascade = ALL)
+    private final List<Category> categories = new ArrayList<>();
+
     @Builder
     private Blog(Member member, String title, String tag){
         relationWithMember(member);
+        this.categories.add(defaultCategory(this));
         this.title = title;
         this.tag = tag;
     }
@@ -44,6 +48,15 @@ public class Blog {
                 .member(member)
                 .title(title)
                 .tag(tag)
+                .build();
+    }
+
+    private Category defaultCategory(Blog blog) {
+        return Category.builder()
+                .blog(blog)
+                .description("기본 제공 카테고리")
+                .displayType("제목 + 내용")
+                .name("미분류")
                 .build();
     }
 

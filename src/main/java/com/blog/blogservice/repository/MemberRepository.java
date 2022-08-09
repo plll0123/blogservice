@@ -1,4 +1,4 @@
-package com.blog.blogservice.repository.entityrepo;
+package com.blog.blogservice.repository;
 
 import com.blog.blogservice.domain.Member;
 import com.blog.blogservice.repository.MemberRepositoryCustom;

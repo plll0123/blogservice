@@ -7,6 +7,8 @@ import com.blog.blogservice.processor.annotation.RequiredLogin;
 import com.blog.blogservice.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,6 +21,12 @@ public class BlogController {
 
     private final BlogService blogService;
 
+    @GetMapping
+    public String find(Long blogId, Model model){
+        model.addAttribute(blogService.findBlog(blogId));
+        return "/blog/blogMain";
+    }
+
     @RequiredLogin
     @PostMapping
     public String register(@Valid BlogCreate blogCreate, @Login Member member){
@@ -26,7 +34,5 @@ public class BlogController {
         return "redirect:/welcome";
     }
 
-//    public String find(Long blogId){
-//        blogService.
-//    }
+
 }

@@ -2,7 +2,6 @@ package com.blog.blogservice.repository;
 
 import com.blog.blogservice.controller.dto.request.MemberCreator;
 import com.blog.blogservice.domain.Member;
-import com.blog.blogservice.repository.entityrepo.MemberRepository;
 import com.blog.blogservice.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

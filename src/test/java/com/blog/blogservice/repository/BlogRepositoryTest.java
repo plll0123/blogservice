@@ -3,8 +3,6 @@ package com.blog.blogservice.repository;
 import com.blog.blogservice.domain.Blog;
 import com.blog.blogservice.domain.Member;
 import com.blog.blogservice.exception.NonUniqueBlogException;
-import com.blog.blogservice.repository.entityrepo.BlogRepository;
-import com.blog.blogservice.repository.entityrepo.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

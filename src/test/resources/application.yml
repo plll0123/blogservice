@@ -10,7 +10,6 @@ spring:
       prefix: /WEB-INF/views/jblog
       suffix: .jsp
   datasource:
-    #    url: jdbc:h2:tcp://localhost/~/blogservice
     url: jdbc:h2:mem:blogservice
     username: sa
     password:

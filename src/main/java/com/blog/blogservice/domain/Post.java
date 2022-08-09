@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -17,12 +18,17 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "blog_id")
     private Blog blog;
 
+    private String title;
+    private String content;
+
     @Builder
-    public Post(Blog blog) {
+    public Post(Blog blog, String title, String content) {
         this.blog = blog;
+        this.title = title;
+        this.content = content;
     }
 }

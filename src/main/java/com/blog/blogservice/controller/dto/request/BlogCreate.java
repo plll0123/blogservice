@@ -8,7 +8,6 @@ import javax.validation.constraints.NotEmpty;
 import static com.blog.blogservice.processor.config.ViewNameConfig.INSERT_BLOG;
 
 @Data
-@NoArgsConstructor
 public class BlogCreate {
 
     @NotEmpty

@@ -2,7 +2,7 @@ package com.blog.blogservice.controller;
 
 import com.blog.blogservice.domain.Member;
 import com.blog.blogservice.exception.IdOrPwMisMatch;
-import com.blog.blogservice.repository.entityrepo.MemberRepository;
+import com.blog.blogservice.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,6 @@ import java.util.Objects;
 import static com.blog.blogservice.processor.config.LoginConstConfig.MEMBER_ID;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
