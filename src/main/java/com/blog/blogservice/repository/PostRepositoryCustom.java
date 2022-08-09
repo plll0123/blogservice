@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PostRepositoryCustom {
 
-    List<PostResponse> findPosts(Long blogId, Pageable pg);
+    List<PostResponse> findPosts123123(Long blogId);
 }

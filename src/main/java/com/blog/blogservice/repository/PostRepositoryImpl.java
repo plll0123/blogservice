@@ -19,7 +19,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory qFactory;
 
     @Override
-    public List<PostResponse> findPosts(Long blogId, Pageable ag) {
+    public List<PostResponse> findPosts123123(Long blogId) {
         return null;
     }
 

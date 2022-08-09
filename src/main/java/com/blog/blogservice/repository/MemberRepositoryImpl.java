@@ -14,7 +14,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory qFactory;
 
     @Override
-    public Optional<Member> findByName(String name) {
+    public Optional<Member> findByName123(String name) {
         return Optional.ofNullable(
                 qFactory
                         .selectFrom(member)
