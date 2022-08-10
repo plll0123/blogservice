@@ -23,7 +23,7 @@ public class BlogController {
 
     @GetMapping
     public String find(Long blogId, Model model){
-        model.addAttribute(blogService.findBlog(blogId));
+        model.addAttribute(blogService.find(blogId));
         return "/blog/blogMain";
     }
 
@@ -33,6 +33,4 @@ public class BlogController {
         blogService.create(member.getId(), blogCreate);
         return "redirect:/welcome";
     }
-
-
 }

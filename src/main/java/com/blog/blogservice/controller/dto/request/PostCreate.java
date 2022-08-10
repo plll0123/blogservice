@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 public class PostCreate {
 
-    private Long blogId;
     private String title;
     private String content;
 
     @Builder
-    public PostCreate(Long blogId, String title, String content) {
-        this.blogId = blogId;
+    public PostCreate(String title, String content) {
         this.title = title;
         this.content = content;
     }

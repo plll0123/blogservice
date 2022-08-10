@@ -12,10 +12,12 @@ public class PostResponse {
 
     private String title;
     private String content;
+    private LocalDateTime latest;
 
     @QueryProjection
-    public PostResponse(String title, String content) {
+    public PostResponse(String title, String content, LocalDateTime latest) {
         this.title = title;
         this.content = content;
+        this.latest = latest;
     }
 }

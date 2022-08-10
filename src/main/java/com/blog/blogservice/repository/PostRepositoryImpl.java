@@ -20,20 +20,16 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public List<PostResponse> findPosts123123(Long blogId) {
-        return null;
+        return qFactory.select(
+                        new QPostResponse(
+                                post.title,
+                                post.content,
+                                post.updated)
+                )
+                .from(post)
+                .where(post.blog.id.eq(blogId))
+                .orderBy(post.id.desc())
+                .fetch();
     }
 
-    //    @Override
-//    public List<PostResponse> getPosts(Long blogId) {
-//        return qFactory.select(
-//                new QPostResponse(
-//                        post.title,
-//                        post.content,
-//                        post.updated)
-//                )
-//                .from(post)
-//                .where(post.blog.id.eq(blogId))
-//                .orderBy(post.id.desc())
-//                .fetch();
-//    }
 }

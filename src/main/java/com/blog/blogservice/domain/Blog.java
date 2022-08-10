@@ -9,7 +9,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.blog.blogservice.domain.Status.OPERATION;
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -25,22 +27,27 @@ public class Blog {
     private String title;
     private String tag;
 
+    @Enumerated(STRING)
+    private Status status;
+
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "blog", cascade = ALL)
+    @OneToMany(mappedBy = "blog", cascade = ALL, orphanRemoval = true)
     private final List<Post> postList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "blog", cascade = ALL)
+    @OneToMany(mappedBy = "blog", cascade = ALL, orphanRemoval = true)
     private final List<Category> categories = new ArrayList<>();
 
     @Builder
     private Blog(Member member, String title, String tag){
+        System.out.println("Blog.Blog");
         relationWithMember(member);
         this.categories.add(defaultCategory(this));
         this.title = title;
         this.tag = tag;
+        this.status = OPERATION;
     }
 
     public static Blog createBlog(Member member, String title, String tag){
@@ -72,9 +79,15 @@ public class Blog {
             throw new NonUniqueBlogException();
     }
 
-    public Post createPost(){
-        return Post.builder()
+    public void createPost(String title, String content){
+        postList.add(Post.builder()
+                .title(title)
+                .content(content)
                 .blog(this)
-                .build();
+                .build());
+    }
+
+    public void changeStatus(){
+        status = status.changeStatus();
     }
 }

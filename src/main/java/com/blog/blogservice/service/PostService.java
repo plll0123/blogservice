@@ -18,23 +18,22 @@ public class PostService extends TimeEntity {
 
     private final PostRepository postRepository;
 
-    public List<PostResponse> findPosts(Long blogId){
-        return null; /*postRepository.getPosts(blogId);*/
-    }
-
-    @Transactional
-    public void createPost(PostCreate postCreate){
-        postRepository.save(newPost(postCreate));
-    }
-
-    private Post newPost(PostCreate postCreate) {
-        return null;
-//                Post.builder()
+//    public List<PostResponse> findPosts(Long blogId){
+//        return null; /*postRepository.getPosts(blogId);*/
+//    }
+//
+//    @Transactional
+//    public void createPost(PostCreate postCreate){
+//        postRepository.save(newPost(postCreate));
+//    }
+//
+//    private Post newPost(PostCreate postCreate) {
+//        return Post.builder()
 //                .blog()
 //                .title(postCreate.getTitle())
 //                .content(postCreate.getContent())
 //                .build();
-    }
+//    }
 
 
 }

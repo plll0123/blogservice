@@ -10,23 +10,24 @@ spring:
       prefix: /WEB-INF/views/jblog
       suffix: .jsp
   datasource:
-    url: jdbc:h2:mem:blogservice
+    url: jdbc:h2:tcp://localhost/~/blogservice
     username: sa
     password:
     driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
         #        show_sql: true
         format_sql: true
         #        default_batch_fetch_size:
         use_sql_comments: true
         highlight_sql: true
 
-#logging:
-#  level:
-#    org.hibernate.SQL: debug
-#    org.hibernate.type: trace
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace

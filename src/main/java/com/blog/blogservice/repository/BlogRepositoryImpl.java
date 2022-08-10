@@ -11,7 +11,7 @@ public class BlogRepositoryImpl implements BlogRepositoryCustom{
 
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public BlogMainResponse findByByBy(Long blogId) {
+    public BlogMainResponse findBlogMain(Long blogId) {
         return null;
     }
 }
