@@ -16,7 +16,7 @@ public class LoginForm {
     @NotEmpty(message = "비밀번호를 입력해주세요.")
     private String password;
 
-    private boolean rememberId;
+//    private boolean rememberId;
     private final String exOccursView = LOGIN_FORM;
 
     @Builder

@@ -24,7 +24,7 @@ public class ExController {
     @ExceptionHandler(BlogException.class)
     public ModelAndView blogExceptionHandler(BlogException e){
         return new ModelAndView(e.getView())
-                .addObject(e.getMessage());
+                .addObject("message", e.getMessage());
     }
 
     @ResponseStatus(BAD_REQUEST)

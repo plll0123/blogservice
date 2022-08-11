@@ -20,7 +20,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class Blog {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "blog_id")
     private Long id;
 
@@ -41,8 +42,7 @@ public class Blog {
     private final List<Category> categories = new ArrayList<>();
 
     @Builder
-    private Blog(Member member, String title, String tag){
-        System.out.println("Blog.Blog");
+    private Blog(Member member, String title, String tag) {
         relationWithMember(member);
         this.categories.add(defaultCategory(this));
         this.title = title;
@@ -50,7 +50,7 @@ public class Blog {
         this.status = OPERATION;
     }
 
-    public static Blog createBlog(Member member, String title, String tag){
+    public static Blog createBlog(Member member, String title, String tag) {
         return Blog.builder()
                 .member(member)
                 .title(title)
@@ -75,11 +75,11 @@ public class Blog {
 
     private void validation(Member member) {
         assert member != null;
-        if(member.hasBlog())
+        if (member.hasBlog())
             throw new NonUniqueBlogException();
     }
 
-    public void createPost(String title, String content){
+    public void createPost(String title, String content) {
         postList.add(Post.builder()
                 .title(title)
                 .content(content)
@@ -87,7 +87,7 @@ public class Blog {
                 .build());
     }
 
-    public void changeStatus(){
+    public void changeStatus() {
         status = status.changeStatus();
     }
 }

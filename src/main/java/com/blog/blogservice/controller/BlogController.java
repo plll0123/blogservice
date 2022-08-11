@@ -1,10 +1,12 @@
 package com.blog.blogservice.controller;
 
 import com.blog.blogservice.controller.dto.request.BlogCreate;
-import com.blog.blogservice.domain.Member;
+import com.blog.blogservice.controller.dto.request.PostCreate;
 import com.blog.blogservice.processor.annotation.Login;
 import com.blog.blogservice.processor.annotation.RequiredLogin;
+import com.blog.blogservice.processor.interceptor.UserDetails;
 import com.blog.blogservice.service.BlogService;
+import com.blog.blogservice.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,15 +24,23 @@ public class BlogController {
     private final BlogService blogService;
 
     @GetMapping
-    public String find(Long blogId, Model model){
-        model.addAttribute(blogService.find(blogId));
+    public String find(Long blogId, Model model) {
+        model.addAttribute("blog", blogService.find(blogId));
         return "/blog/blogMain";
     }
 
     @RequiredLogin
-    @PostMapping
-    public String register(@Valid BlogCreate blogCreate, @Login Member member){
-        blogService.create(member.getId(), blogCreate);
-        return "redirect:/welcome";
+    @GetMapping("/insert")
+    public String createBlogForm(){
+        return "/blog/insertBlog";
     }
+
+    @RequiredLogin
+    @PostMapping("/insert")
+    public String register(@Valid BlogCreate blogCreate, @Login UserDetails userDetails) {
+        Long blogId = blogService.create(userDetails.getMemberId(), blogCreate);
+        userDetails.setBlogId(blogId);
+        return "redirect:/";
+    }
+
 }

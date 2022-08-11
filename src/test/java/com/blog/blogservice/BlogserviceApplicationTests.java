@@ -21,7 +21,6 @@ import static com.blog.blogservice.domain.Status.OPERATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Rollback(false)
 class BlogserviceApplicationTests {
 
 	@Autowired
@@ -43,39 +42,19 @@ class BlogserviceApplicationTests {
 
 	@Test
 	void contextLoads() {
-		Long joinedMemberId = memberService.join(MemberCreator.builder()
-				.name("1234")
-				.loginId("1234")
-				.password("1234")
-				.build());
-		System.out.println(" after saved member " );
-//		Member findMember = memberService.findById(joinedMemberId);
-		BlogCreate blogCreate = BlogCreate.builder()
-				.tag("test")
-				.title("test")
-				.build();
 
-		Long createdBlogId = blogService.create(joinedMemberId, blogCreate);
-		System.out.println(" after create Blog " );
-		PostCreate postCreate = PostCreate.builder()
-				.title("test")
-				.content("test")
-				.build();
-
-		//findBlog 1번
-		//insert into Post 1번
-
-		blogService.writePost(createdBlogId, postCreate);
 	}
 
 	@Test
 	@DisplayName("Blog DB로 부터 생성 테스트")
 	void test() {
-		Blog blog = blogService.find(2L);
-		System.out.println("blog.getMember().getId() = " + blog.getMember().getId());
-		System.out.println("blog.getMember().getName() = " + blog.getMember().getName());
 
-	}
+        Member byId = memberService.findById(1L);
+        System.out.println("byId.getName() = " + byId.getName());
+        System.out.println("byId.getBlog().getId() = " + byId.getBlog().getId());
+        System.out.println("byId.getBlog().getId() = " + byId.getBlog().getTitle());
+
+    }
 
 	@Test
 	@Transactional

@@ -1,9 +1,9 @@
 package com.blog.blogservice.processor.config;
 
 import com.blog.blogservice.processor.argumentResolver.MemberArgumentResolver;
-import com.blog.blogservice.processor.interceptor.session.ChainNo1;
-import com.blog.blogservice.processor.interceptor.session.ChainNo2;
-import com.blog.blogservice.processor.interceptor.session.SessionCheckChain;
+import com.blog.blogservice.processor.interceptor.BlogInterceptor;
+import com.blog.blogservice.processor.interceptor.LoginInterceptor;
+import com.blog.blogservice.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -16,16 +16,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final SessionCheckChain chainNo1;
-    private final SessionCheckChain chainNo2;
     private final MemberArgumentResolver memberResolver;
-
+    private final LoginInterceptor loginInterceptor;
+    private final BlogInterceptor blogInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(chainNo1)
-                .order(1);
-        registry.addInterceptor(chainNo2)
-                .order(2);
+        registry.addInterceptor(loginInterceptor).order(1);
+        registry.addInterceptor(blogInterceptor).order(2);
     }
 
     @Override

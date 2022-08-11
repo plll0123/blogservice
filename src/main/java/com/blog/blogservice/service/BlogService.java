@@ -12,23 +12,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.blog.blogservice.domain.Blog.createBlog;
 
 @Service
-//@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BlogService {
 
     private final MemberService memberService;
     private final BlogRepository blogRepository;
-    private final PostService postService;
-//    private final CategoryService categoryService;
 
-    private void validationCheck(Long blogId) {
-        if (blogId == null) {
+    public void isValidId(Long blogId){
+        if(blogId == null){
             throw new BlogNotFoundException();
         }
+    }
+    public Blog find(Long blogId) {
+        isValidId(blogId);
+        return blogRepository.findById(blogId)
+                .orElseThrow(BlogNotFoundException::new);
     }
 
     @Transactional
@@ -36,7 +39,6 @@ public class BlogService {
 
         Member findMember = memberService.findById(memberId);
 
-        // 저장 전 select Blog ----- 가 나가는 이유 찾아야함.
         return blogRepository.save(createNewBlog(findMember, blogCreate))
                 .getId();
     }
@@ -45,36 +47,27 @@ public class BlogService {
         return createBlog(member, blogCreate.getTitle(), blogCreate.getTag());
     }
 
-    public Blog find(Long blogId) {
-        validationCheck(blogId);
-        return blogRepository.findById(blogId)
-                .get();
-//        return getBlogMain(blogId);
-    }
-
 
     public List<Blog> getBlogs() {
         return blogRepository.findAll();
     }
 
     @Transactional
-    public void writePost(Long blogId, PostCreate postCreate){
-        Blog blog = blogRepository.findById(blogId)
-                .orElseThrow(BlogNotFoundException::new);
-
-        blog.createPost(postCreate.getTitle(), postCreate.getContent());
-    }
-
-    @Transactional
-    public void changeStatus(Long blogId){
+    public void changeStatus(Long blogId) {
         blogRepository.findById(blogId)
                 .orElseThrow(BlogNotFoundException::new)
                 .changeStatus();
     }
 
-    private BlogMainResponse getBlogMain(Long blogId) {
-//        BlogMainResponse blogMain = blogRepository.searchBy(blogId);
-//        blogMain.setPosts(postService.getPosts(blogId));
-        return null;
+    public BlogMainResponse getBlogMain(Long blogId, BlogCreate blogCreate) {
+        BlogMainResponse blogMain = blogRepository.searchBy(blogId);
+        blogMain.setPosts(blogRepository.searchPostsBy(blogId));
+        return blogMain;
+    }
+
+    @Transactional
+    public void writePost(Long blogId, PostCreate postCreate){
+        find(blogId)
+                .createPost(postCreate.getTitle(), postCreate.getContent());
     }
 }
