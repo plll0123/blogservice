@@ -11,3 +11,4 @@ javax.validation 패키지에 속한 @NotNull등을 사용해도 괜찮을까요
 4. InterceptorService 클래스에서 사용한 currentRequestAttributes는 실무에서도 사용할 수 있는 기술인가요? 코드를 최대한 깔끔하게 짜보려고 Session등을 매개변수로 넘기지 않으려 적용해봤습니다. 이 것 말고도 ThreadLocal처럼 동시성 문제를 피하며 사용할 수 있는 공통 저장소가 있을까요?
 5. HttpSession을 injection 받아 필드 레벨에서 사용하면 동시성 문제가 있을까요?
 6. mvc에서 사용할 수 있는  StringUtils 처럼 유용한 클래스들이 무엇이 있나요?
+7. Spring Security를 현업에서도 사용하나요?
