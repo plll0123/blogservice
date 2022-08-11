@@ -14,4 +14,4 @@ javax.validation 패키지에 속한 @NotNull등을 사용해도 괜찮을까요
 5. HttpSession을 injection 받아 필드 레벨에서 사용하면 동시성 문제가 있을까요?
 6. mvc에서 사용할 수 있는  StringUtils 처럼 유용한 클래스들이 무엇이 있나요?
 7. Spring Security를 현업에서도 사용하나요?
-8. 컨트롤러의 @Valid로 DTO 검증 시 발생 할 수 있는 BindException에 대한 공통적인 예외처리를 하기 위해서 Reflection을 사용해 봤는데 스프링에서 이것과 같은 처리를 해주는 
+8. 컨트롤러의 @Valid로 DTO 검증 시 발생 할 수 있는 BindException에 대한 공통적인 예외처리를 하기 위해서 Reflection을 사용해 봤는데 스프링에서 이것과 같은 처리를 해주는 것이 있을
