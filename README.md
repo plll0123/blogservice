@@ -10,3 +10,4 @@ javax.validation 패키지에 속한 @NotNull등을 사용해도 괜찮을까요
 주로 Controller layer에서 Dto를 검증할 때 사용해서 그런지 Entity가 이 기술에 의존해도 되는지, 추가로 리뷰어님이 사용하시는 검증 방법도 궁금합니다.
 4. InterceptorService 클래스에서 사용한 currentRequestAttributes는 실무에서도 사용할 수 있는 기술인가요? 코드를 최대한 깔끔하게 짜보려고 Session등을 매개변수로 넘기지 않으려 적용해봤습니다. 이 것 말고도 ThreadLocal처럼 동시성 문제를 피하며 사용할 수 있는 공통 저장소가 있을까요?
 5. HttpSession을 injection 받아 필드 레벨에서 사용하면 동시성 문제가 있을까요?
+6. mvc에서 사용할 수 있는  StringUtils 처럼 유용한 클래스들이 무엇이 있나요?
